@@ -1,0 +1,54 @@
+SOME STUFF ABOUT VECTOR-TABLE
+====> vector table consists of initial addresses of code memory, handler address(IRQ handler address)  
+
+
+
+Importance of Start-up file 
+
+1) startup-file sruns before main()
+2) some part of startup file is target dependent coz it has vector table at the begininng, and stack pointer
+3) startup file sometimes needs to turn on co-processors like Floating-point units..
+4) responsibel for .data, .bss section initialization in main mamory(SRAM), i.e, copying .data .bss sections from flash to SRAM 
+5) takes care of stack reinitialization 
+
+steps to write start-up file
+
+1) create vector-table for uC, these tables are MCU specific
+2) write start-up code which initializes .data, .bss sections in SRAM 
+3) call main
+
+
+
+1)declare a array named something to store all the vectors, system exceptions in it.
+but usually this array gets stored in .data section but it should get stored in vector table section in FLASH
+
+NOTE--For every interrupt, there must be an interrupt service routine (ISR), or interrupt handler. When an interrupt occurs, the microcontroller runs the interrupt service routine. For every interrupt, there is a fixed location in memory that holds the address of its interrupt service routine, ISR. The table of memory locations set aside to hold the addresses of ISRs is called as the Interrupt Vector Table.
+
+2) And lets place this vector table(always in FLASH/ STACK) right after SRAM ends
+3) using Varaiable-Attribute>Section-Attribute in gcc we can place this vector table in user defined sections   
+4) eg. syntax of section-attribute
+	struct myuart a __attribute__ ((section ("section_name")))= {struct definitions here};
+	char stack[3] __attribute__((section ("section_name"))) = {0,1,2};
+	int data __attribute__ ((section ("section_name")));
+
+5) defining each and every IRQ handeler for all the 60+ IRQs will be very tedious, so using 
+gcc attribute called 'weak' and 'alias'
+weak: lets programmer to override already defined weak function(dummy) with the same function name
+alias: lets programmer to give alias name for a funtion 
+
+source  https://gcc.gnu.org/onlinedocs/gcc-10.3.0/gcc/Common-Variable-Attributes.html#Common-Variable-Attributes
+
+eg. 
+	void NMI_Handler(void)  __attribute__((alias("Default_Handler"))); 
+//here "Default_Handler" is an alias function name for "NMI_Handler"
+//in the vector table array, address of "Default_Handler" function will be stored
+//so when NMI exception triggers, "Default_Handler" will be executed. 
+
+so to override the Default_Handler the user can do that in his source file, hence we have to use 'weak' attribute.
+this allows the programmer to override Handlers defined in startupfile and allows to define Handlers in main application with the same name, there programmer can implement real implementation of handeling that exception.
+	
+
+
+
+
+

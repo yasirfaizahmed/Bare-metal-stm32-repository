@@ -1,0 +1,96 @@
+LINKER SCRIPT GUIDE
+
+so this is the holy file which relocates the final output file to absolute addresses of the target uC, these absolute addresses needs to defined in the Linker script along with other info.
+
+To generate the final ELF file, we need to link all
+ the object files using linker scripts.
+this linker script has an extension .ld
+and thid linker script file must be supplied at the
+linking phase to the linker using -T 
+
+some important linker scripts commands
+	ENTRY
+	MEMORY
+	SECTIONS
+	KEEP
+	ALIGN
+	vlm AT> 
+
+ENTRY - this defines when this linker script needs to run, usually inside "Reset_Handler" function , i.e., when you reset the uC the relocating process needs to be ran copying all the .data, .bss to SRAM from FLASH and properly placing .vectors and .text section in FLASH
+syntax
+	ENTRY (_symbol_name_)
+eg. 
+	ENTRY (Reset_Handler)
+
+
+
+MEMORY - this defines the memory map of the target device, the details on the addresses of FLASH, SRAM, bkpSRAM, etc along with there sizes.
+here attributes can be r,w,x (readable, writable, executable).
+suntax
+	MEMORY {
+		name(attr) : OROGIN=origin, LENGTH=len
+	}
+eg. 	MEMORY{
+	FLASH(rx) : ORIGIN=0x08000000, LENGTH=512K
+	SRAM(rwx) : ORIGIN=0x20000000, LENGTH=96K
+}
+
+SECTION - this merges all the sections together and places them at their appropriate locations in FLASH and SRAM.
+the sections defined should match the final pattern of section placement in FLASH, SRAM
+so the .vectors needs to placed before .text and .rodata and so on..
+syntax
+	SECTION{
+		name :{
+			*(name1)
+			*(name2)
+		}>vma AT>lma	//gives where to place this sections?
+	}
+here, vma-virtual memory allocation (in our case, it means where else do you want to place this section other than FLASH?)
+lma-load memory allocation(in our case it means, do you want to place this in FLASH?)
+
+eg.
+SECTION{
+	.text :{
+		*(.vectors)	//merges all the .vectors sections from all the files
+		*(.text)	//merges all the .text sections from all the files
+		*(.rodata)	//merges all the .rodata sections from all the files
+	}> FLASH	//lma,vma are same, i.e,. FLASH
+	
+	.data :{
+		*(.data)	//merges all .data sections
+	}> SRAM AT>FLASH	//vma is SRAM, lma is FLASH
+	//so when the linker sees this, it'll place the merged .data section inside lma but the absolute addresses will be from SRAM.
+	
+	.bss :{
+		*(.bss)		//merges all .bss sections
+	}> SRAM			//lma,vma are smae, i.e,. SRAM
+}
+
+
+
+Once that is done, we need to copy .data and .bss sections from FLASH to SRAM, to do that we need to get the starting address of .data and starting address of .bss sections and also need the destination address in SRAM.
+
+one way to get those is by using "." aka "location counter", 
+
+In linker script we cant define variables like in C, coz it will not get compled like C, and its just a script, so we need to work with linker script symbols, a symbol is one which holds the address(in other words, a linker script symbol is a name given for a address), in our case address of a section.
+
+And linker script symbols are valid only inside "SECTIONS".
+
+The location couner is incremented by the size of the output section.
+
+eg. 
+SECTIONS{
+	.text:
+	{	//here location counter value is equal to vma (i.e., ORIGIN of FLASH 0x08000000)
+		*(.vectors)
+		*(.text)
+		*(.rodata)
+		//here location counter value is equal to (ORIGIN of FLASH) + (size of all the above merged sections) 
+	}
+}
+
+Also the "." only tracks the vma addresses values and not lma
+
+
+ 
+
