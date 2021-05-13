@@ -1,12 +1,16 @@
 
-
 #include <stdint.h>
+
+#define SRAM_START  0x20000000U
+#define SRAM_SIZE   96U * 1024U     //96KB
+#define STACK_START ((SRAM_START) + (SRAM_SIZE))
+
 
 /************************** ISR Vector function prototyping ***********************************/
 
 /************** System core ISR function prototyping**************/
-void Reset_Handler(void);
-void NMI_Handler(void)									__attribute__ ((weak, alias("Default_Handler")));
+void Reset_Handler(void);	//only Reset_Handler is not weak
+void NMI_Handler(void)									        __attribute__ ((weak, alias("Default_Handler")));
 void HardFault_Handler(void)									__attribute__ ((weak, alias("Default_Handler")));
 void MemManage_Handler(void)									__attribute__ ((weak, alias("Default_Handler")));
 void BusFault_Handler(void)									__attribute__ ((weak, alias("Default_Handler")));
