@@ -46,7 +46,12 @@ eg.
 
 so to override the Default_Handler the user can do that in his source file, hence we have to use 'weak' attribute.
 this allows the programmer to override Handlers defined in startupfile and allows to define Handlers in main application with the same name, there programmer can implement real implementation of handeling that exception.
+
+And to make all the data to be properly alligned, we can use ALIGN(n) command, where n is 4 for word and 8 for double word.
+eg. 
+	. = ALIGN(4)	
 	
+	. = ALIGH(8)
 
 
 

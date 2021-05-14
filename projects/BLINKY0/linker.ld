@@ -1,25 +1,32 @@
-ENTRY (Reset_Handler)	//runs when reset button is pressed
+ENTRY (Reset_Handler)	
 
 MEMORY{
-	FLASH(rx) : ORIGIN=0x08000000, LENGTH=512K
-	SRAM(rwx) : ORIGIN=0x20000000, LENGTH=96K
+	FLASH(rx):ORIGIN =0x08000000, LENGTH =512K
+	SRAM(rwx):ORIGIN =0x20000000, LENGTH =96K
 }
 
-SECTION{
-	.text :{	//.text in FLASH consists code memory in following order .vectors .text .rodata 
+SECTIONS{
+	.text :{	 
 		*(.vectors)
 		*(.text)
 		*(.rodata)
-		end_of_text = .;	//end_of_text = (FLASH ORIGIN) + (size of the above sections combined)	
-	}> FLASH	//both vma and lma are FLAH
+		. = ALIGN(4);
+		_etext = .;		
+	}> FLASH	
 	
 	
-	.data :{	//.data section is to placed in both FLASH and alos in SRAM
+	.data :{	
+		_sdata = .;		
 		*(.data)
-	}> SRAM AT>FLASH	//vma is SRAM, lma is FLASH
+		. = ALIGN(4);
+		_edata = .;	
+	}> SRAM AT> FLASH	
 	
 	
-	.bss :{	//.bss only in SRAM
+	.bss :{	
+		_sbss = .;		
 		*(.bss)
-	}> SRAM	//both vma and lma are SRAM
+		. = ALIGN(4);
+		_ebss = .;		
+	}> SRAM	
 }
