@@ -13,7 +13,7 @@ as Relocatable-object file
  .text section -->holds all the code instructionsto be flashed 
 to SRAM and read-only data
  .data section -->holds the initialized writable data
- .bss section -->uninitialized data
+ .bss section -->uninitialized data, data initialized to zero '0'.
  .rodata section -->holds initialized data like gloabal const variables and initialized arrays etc.
  .comment section
 
@@ -56,7 +56,8 @@ linking phase to the linker using -T
 	ALIGN
 	AT>
 
-
+======> to see all the symbols in a elf file, use the below command
+	arm-none-eabi-nm.exe filename.elf
 	
 
 

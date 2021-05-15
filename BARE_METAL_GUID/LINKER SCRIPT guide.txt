@@ -91,6 +91,12 @@ SECTIONS{
 
 Also the "." only tracks the vma addresses values and not lma
 
+And to make all the data to be properly alligned when a section ends, we can use ALIGN(n) command, where n is 4 for word and 8 for double word.
+eg. 
+	. = ALIGN(4)	
+	
+	. = ALIGH(8)
 
  
-
+======> to see all the symbols in a elf file, use the below command
+	arm-none-eabi-nm.exe filename.elf

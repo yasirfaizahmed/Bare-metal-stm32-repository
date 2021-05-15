@@ -1,0 +1,156 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x08000000         0x00080000         xr
+SRAM             0x20000000         0x00018000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD main.o
+LOAD startup.o
+
+.text           0x08000000      0x1e4
+ *(.vectors)
+ .vectors       0x08000000      0x140 startup.o
+                0x08000000                vector_table
+ *(.text)
+ .text          0x08000140       0x88 main.o
+                0x08000140                main
+ .text          0x080001c8       0x12 startup.o
+                0x080001c8                Reset_Handler
+                0x080001d4                FLASH_Handler
+                0x080001d4                SVCall_Handler
+                0x080001d4                HardFault_Handler
+                0x080001d4                SysTick_Handler
+                0x080001d4                USART3_Handler
+                0x080001d4                DMA1_Channel7_Handler
+                0x080001d4                PendSV_Handler
+                0x080001d4                NMI_Handler
+                0x080001d4                DMA1_Channel6_Handler
+                0x080001d4                DMA2_Channel5_Handler
+                0x080001d4                CAN1_RX1_Handler
+                0x080001d4                EXTI15_10_Handler
+                0x080001d4                EXT14_Handler
+                0x080001d4                DMA2_Channel1_Handler
+                0x080001d4                I2C1_EV_Handler
+                0x080001d4                ADC1_2_Handler
+                0x080001d4                EXT11_Handler
+                0x080001d4                WWDG_Handler
+                0x080001d4                DMA2_Channel4_Handler
+                0x080001d4                DMA1_Channel1_Handler
+                0x080001d4                OTG_FS_Handler
+                0x080001d4                ETH_WKUP_Handler
+                0x080001d4                I2C1_ER_Handler
+                0x080001d4                EXT9_5_Handler
+                0x080001d4                RTC_Handler
+                0x080001d4                UsageFault_Handler
+                0x080001d4                CAN1_RX0_Handler
+                0x080001d4                TIM1_CC_Handler
+                0x080001d4                I2C2_ER_Handler
+                0x080001d4                CAN1_SCE_Handler
+                0x080001d4                TIM1_BRK_Handler
+                0x080001d4                EXT12_Handler
+                0x080001d4                UART4_Handler
+                0x080001d4                CAN2_RX1_Handler
+                0x080001d4                TIM2_Handler
+                0x080001d4                USART1_Handler
+                0x080001d4                CAN2_SCE_Handler
+                0x080001d4                DMA1_Channel4_Handler
+                0x080001d4                TIM3_Handler
+                0x080001d4                Default_Handler
+                0x080001d4                EXT10_Handler
+                0x080001d4                DMA1_Channel3_Handler
+                0x080001d4                TIM4_Handler
+                0x080001d4                CAN2_TX_Handler
+                0x080001d4                SPI2_Handler
+                0x080001d4                DMA1_Channel2_Handler
+                0x080001d4                MemManage_Handler
+                0x080001d4                CAN2_RX0_Handler
+                0x080001d4                TIM1_UP_Handler
+                0x080001d4                DMA1_Channel5_Handler
+                0x080001d4                USART2_Handler
+                0x080001d4                ETH_Handler
+                0x080001d4                SPI1_Handler
+                0x080001d4                I2C2_EV_Handler
+                0x080001d4                SPI3_Handler
+                0x080001d4                DMA2_Channel3_Handler
+                0x080001d4                RCC_Handler
+                0x080001d4                PVD_Handler
+                0x080001d4                UART5_Handler
+                0x080001d4                DMA2_Channel2_Handler
+                0x080001d4                EXT13_Handler
+                0x080001d4                TIM5_Handler
+                0x080001d4                TIM7_Handler
+                0x080001d4                CAN1_TX_Handler
+                0x080001d4                BusFault_Handler
+                0x080001d4                TIM6_Handler
+                0x080001d4                RTCAlarm_Handler
+                0x080001d4                DebugMonitor_Handler
+                0x080001d4                TIM1_TRG_COM_Handler
+                0x080001d4                OTG_FS_WKUP_Handler
+                0x080001d4                TAMPER_Handler
+ *(.rodata)
+ *fill*         0x080001da        0x2 
+ .rodata        0x080001dc        0x8 main.o
+                0x080001dc                data
+                0x080001e0                lmao
+                0x080001e4                . = ALIGN (0x4)
+                0x080001e4                _etext = .
+
+.glue_7         0x080001e4        0x0
+ .glue_7        0x080001e4        0x0 linker stubs
+
+.glue_7t        0x080001e4        0x0
+ .glue_7t       0x080001e4        0x0 linker stubs
+
+.vfp11_veneer   0x080001e4        0x0
+ .vfp11_veneer  0x080001e4        0x0 linker stubs
+
+.v4_bx          0x080001e4        0x0
+ .v4_bx         0x080001e4        0x0 linker stubs
+
+.iplt           0x080001e4        0x0
+ .iplt          0x080001e4        0x0 startup.o
+
+.rel.dyn        0x080001e4        0x0
+ .rel.iplt      0x080001e4        0x0 startup.o
+
+.data           0x20000000        0x0 load address 0x080001e4
+                0x20000000                _sdata = .
+ *(.data)
+ .data          0x20000000        0x0 main.o
+ .data          0x20000000        0x0 startup.o
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _edata = .
+
+.mysection      0x20000000        0x6 load address 0x080001e4
+ .mysection     0x20000000        0x6 main.o
+                0x20000000                arr
+
+.igot.plt       0x20000008        0x0 load address 0x080001ea
+ .igot.plt      0x20000008        0x0 startup.o
+
+.bss            0x20000006        0x2 load address 0x080001ea
+                0x20000006                _sbss = .
+ *(.bss)
+ .bss           0x20000006        0x0 main.o
+ .bss           0x20000006        0x0 startup.o
+                0x20000008                . = ALIGN (0x4)
+ *fill*         0x20000006        0x2 
+                0x20000008                _ebss = .
+OUTPUT(final.elf elf32-littlearm)
+LOAD linker stubs
+
+.comment        0x00000000       0x4c
+ .comment       0x00000000       0x4c main.o
+                                 0x4d (size before relaxing)
+ .comment       0x0000004c       0x4d startup.o
+
+.ARM.attributes
+                0x00000000       0x2d
+ .ARM.attributes
+                0x00000000       0x2d main.o
+ .ARM.attributes
+                0x0000002d       0x2d startup.o

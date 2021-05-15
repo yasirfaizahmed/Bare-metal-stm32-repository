@@ -13,6 +13,8 @@ startup.o : startupfile.c
 link : linker.ld main.o startup.o 
 	$(CC) main.o startup.o $(FLAGS) -nostdlib -T linker.ld -o final.elf
 
+map : linker.ld main.o startup.o
+	$(CC) main.o startup.o $(FLAGS) -Wl,-Map=final.map -nostdlib -T linker.ld -o final.elf
 
 
 clean : 

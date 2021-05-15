@@ -18,8 +18,15 @@
 	
 uint16_t arr[] __attribute__ ((section (".mysection"))) = {69, 69, 69};
 
+const uint32_t data = 2345;
+const uint32_t lmao = 3456;
+
 
 int main(){
+	
+	int arr = 56;
+	int er = 69;
+	int yt = 34;
 	
 	RCC_APB2ENR |= (1<<4);
 	GPIOC_CRH &= 0xFF0FFFFF;
