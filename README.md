@@ -97,7 +97,7 @@ Looking at the image above, imagine each block represents one byte of memory and
 
 If we try to read data from unaligned memory the processor would need to fetch the data twice and we would get a performance penalty. One solution to this problem is to use alignment instructions when data is assigned an address. Such an instruction would typically round the address up to the closest multiple of the data size. This works but at the cost of creating unused memory locations. In the image below we can see the effect of memory alignment.
 
-1[mem align](https://github.com/yasirfaizahmed/Bare-metal-stm32-repository/blob/master/BARE_METAL_GUID/MemAlign2.png)
+![mem align](https://github.com/yasirfaizahmed/Bare-metal-stm32-repository/blob/master/BARE_METAL_GUID/MemAlign2.png)
 
 Take as example address 0x0000 0008 which holds a 2 byte value, the next value to be stored is a 4 byte value. But since we need to align the memory we can’t store it at address 0x0000 000A, the first available address would be 0x0000 000C which creates 2 bytes of unused space.
 
