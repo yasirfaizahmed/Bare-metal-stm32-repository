@@ -39,6 +39,17 @@ To get the .map file of .elf file
 6. Instruction set
 7. Building the program
 
+### Memory map
+
+since stm32f103 is 32bit uC it can access memory space of 4GB, but the uC itself has some internal mmemory to store program code, config registers, variables etc.
+mainly the uC memory is divided into two ROM and RAM.
+
+ROM - is of 512KB in general and consists of Alised memory, Flash memory, system memory
+ROM is where the executable code gets stored alog with the already declared constants in the program since they will not change while the program is running its good to have them in ROM instead of RAM memory.
+![Memory map](https://github.com/yasirfaizahmed/Bare-metal-stm32-repository/blob/master/BARE_METAL_GUID/MemoryMap.png)
+Aliased, Flash, System memory is all of 128KB each 
+Aliased - This block of memory is mapped with Flash, wirting contents in Aliased memory will reflect the same in Flash memory, we cant write directly into flash but writing into the Aliased memory will give us the same result.
+Flash - this is where the code gets stored along with declared constants.
 
 
 
