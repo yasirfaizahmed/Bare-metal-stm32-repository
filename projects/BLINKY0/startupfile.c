@@ -2,8 +2,19 @@
 #include <stdint.h>
 
 #define SRAM_START  0x20000000U
-#define SRAM_SIZE   96U * 1024U     //96KB
+#define SRAM_SIZE   20U * 1024U     //20KB
 #define STACK_START ((SRAM_START) + (SRAM_SIZE))
+
+/******* importing symbols defined in linder.ld file here ********/
+extern uint32_t _ld_data;
+extern uint32_t _sdata;
+extern uint32_t _edata;
+extern uint32_t _sbss; 
+extern uint32_t _ebss;
+
+
+/******* main function prototype ********/
+int main(void);
 
 
 /************************** ISR Vector function prototyping ***********************************/
@@ -84,15 +95,19 @@ void CAN2_SCE_Handler(void)									__attribute__ ((weak, alias("Default_Handler
 void OTG_FS_Handler(void)									__attribute__ ((weak, alias("Default_Handler")));
 
 
-
+/**************************** ISR vector table *****************************************/
 uint32_t vector_table[] __attribute__ ((section(".vectors"))) = {//A user defined section, this array gets stored in .vectors section and not in .data section
 	// system core IRQs
+	(uint32_t)STACK_START,	
 	(uint32_t)&Reset_Handler,
 	(uint32_t)&NMI_Handler,
 	(uint32_t)&HardFault_Handler,
 	(uint32_t)&MemManage_Handler,
 	(uint32_t)&BusFault_Handler,
 	(uint32_t)&UsageFault_Handler,
+	0,
+	0,
+	0,
 	0,
 	(uint32_t)&SVCall_Handler,
 	(uint32_t)&DebugMonitor_Handler,
@@ -144,7 +159,13 @@ uint32_t vector_table[] __attribute__ ((section(".vectors"))) = {//A user define
 	(uint32_t)&EXTI15_10_Handler,
 	(uint32_t)&RTCAlarm_Handler,
 	(uint32_t)&OTG_FS_WKUP_Handler,
-	0,0,0,0,0,0,0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
 	(uint32_t)&TIM5_Handler,
 	(uint32_t)&SPI3_Handler,
 	(uint32_t)&UART4_Handler,
@@ -177,13 +198,21 @@ uint32_t vector_table[] __attribute__ ((section(".vectors"))) = {//A user define
  *  \details More details
  */
 void Reset_Handler(void){
+	uint32_t *src , *dst;	//_ld_data, _sdata are externs symbols from linker.ld
+	for(src = &_ld_data,dst = &_sdata; dst<&_edata; src++,dst++){
+		*dst = *src; 	//copying
+	}
+	for(dst = &_sbss; dst<&_ebss; dst++){	// Initialize all uninitialized variables (bss section) to 0
+		*dst = 0;
+	}
 	
+	main();
 	
-	
+	while(1);	//usually main should not return anything, but it does
 }
 
 /*
- *  \brief Default_Handler ISR an alias for most of the unnccesory handlers
+ *  \brief Default_Handler ISR an alias for most of the unneccesory handlers
  *  
  *  \return returns nothing
  *  

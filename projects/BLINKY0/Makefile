@@ -18,6 +18,6 @@ map : linker.ld main.o startup.o
 
 
 clean : 
-	rm -rf *.o *.elf
+	rm -rf *.o *.elf *.map
 	
 	
