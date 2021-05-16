@@ -45,11 +45,31 @@ since stm32f103 is 32bit uC it can access memory space of 4GB, but the uC itself
 mainly the uC memory is divided into two ROM and RAM.
 
 ROM - is of 512KB in general and consists of Alised memory, Flash memory, system memory
+
 ROM is where the executable code gets stored alog with the already declared constants in the program since they will not change while the program is running its good to have them in ROM instead of RAM memory.
 ![Memory map](https://github.com/yasirfaizahmed/Bare-metal-stm32-repository/blob/master/BARE_METAL_GUID/MemoryMap.png)
-Aliased, Flash, System memory is all of 128KB each 
-Aliased - This block of memory is mapped with Flash, wirting contents in Aliased memory will reflect the same in Flash memory, we cant write directly into flash but writing into the Aliased memory will give us the same result.
-Flash - this is where the code gets stored along with declared constants.
+
+
+Aliased memory- This block of memory is mapped with Flash, wirting contents in Aliased memory will reflect the same in Flash memory, we cant write directly into flash but writing into the Aliased memory will give us the same result. both Aliased memory is of 128KB.
+
+Flash memoery- this is where the code gets stored along with declared constants.Its divided into sections which are vector table section, .text section, .rodata section, .data section.
+
+vector table section starts at 0x08000000 and it contains the address of the top of the stack, and from address 0x080000004 the vector table starts till the last Interupt handler address.
+
+.text section holds the code memory and appears right after the vector table section is over
+
+.rodata sections holds the declared constants.
+
+.data section holds the declared variables and this section needs to be copied to SRAM which we will discuss later.
+
+.bss section also holds the gloabally declared variable, even this needs to be copied to SRAM.
+
+SRAM - This is of 96KB and holds the variables which are needed for the program to run and since for fast computations we need very less access time and writing time these variables needs to stored in SRAM and not in ROM. there fore we have to copy the .data and .bss sections from FLASH to SRAM.
+
+System memory- This is where the booting program is written and its factory programmed and we do not have write access into it. and its of around 2KB.
+
+
+
 
 
 
