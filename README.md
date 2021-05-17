@@ -6,7 +6,7 @@ This repo is collection of all Bear-metal developed code and some references to 
 2. [Make](http://gnuwin32.sourceforge.net/packages/make.htm) to compile and build files easily.
 3. [Bash Environment, in my case Cygwin](https://cygwin.com/install.html) if you have git installed already in you machine you can launch git bash at your working directory as well.
 4. ST-link v2 programmer, and ofcourse our Bluepill stm32f103C8
-
+5. [stm32 stlink utility](https://www.st.com/en/development-tools/stsw-link004.html)
 
 
 ## Run the commands below at the working directory
@@ -24,9 +24,16 @@ To link all the object files and to create final .elf file
 
       make link
       
-To get the .map file of .elf file
+To get the .bin file from .elf file 
+
+      make bin
+
+      
+To get the .map file of .elf file (just for references)
 
       make map
+      
+Once the .bin file is ready, just open the [stm32 stlink utility](https://www.st.com/en/development-tools/stsw-link004.html), go to Target>Program> select your .bin file and click start, that should download the .bin file to flash.
       
   
 ## Some stuff need to know before getting started
