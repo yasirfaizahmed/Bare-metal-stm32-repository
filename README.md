@@ -61,7 +61,7 @@ vector table section starts at 0x08000000 and it contains the address of the top
 
 .data section holds the declared variables and this section needs to be copied to SRAM which we will discuss later.
 
-.bss section also holds the gloabally declared variable, even this needs to be copied to SRAM.
+.bss section holds the uninitialized variable, even this needs to be copied to SRAM but needs to be initialized as 0.
 
 SRAM - This is of 96KB and holds the variables which are needed for the program to run and since for fast computations we need very less access time and writing time these variables needs to stored in SRAM and not in ROM. there fore we have to copy the .data and .bss sections from FLASH to SRAM.
 
