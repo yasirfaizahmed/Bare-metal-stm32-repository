@@ -1,0 +1,162 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x08000000         0x00010000         xr
+SRAM             0x20000000         0x00005000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD obj/main.o
+LOAD obj/startup.o
+LOAD obj/GPIO_DRIVER2.o
+
+.text           0x08000000      0x4f0
+ *(.vectors)
+ .vectors       0x08000000      0x150 obj/startup.o
+                0x08000000                vector_table
+ *(.text)
+ .text          0x08000150      0x17c obj/main.o
+                0x08000150                usart1_setup
+                0x080001dc                UART_TX
+                0x08000260                UART_SEND
+                0x080002a0                main
+ .text          0x080002cc       0x68 obj/startup.o
+                0x080002cc                Reset_Handler
+                0x0800032c                FLASH_Handler
+                0x0800032c                SVCall_Handler
+                0x0800032c                HardFault_Handler
+                0x0800032c                SysTick_Handler
+                0x0800032c                USART3_Handler
+                0x0800032c                DMA1_Channel7_Handler
+                0x0800032c                PendSV_Handler
+                0x0800032c                NMI_Handler
+                0x0800032c                DMA1_Channel6_Handler
+                0x0800032c                DMA2_Channel5_Handler
+                0x0800032c                CAN1_RX1_Handler
+                0x0800032c                EXTI15_10_Handler
+                0x0800032c                EXT14_Handler
+                0x0800032c                DMA2_Channel1_Handler
+                0x0800032c                I2C1_EV_Handler
+                0x0800032c                ADC1_2_Handler
+                0x0800032c                EXT11_Handler
+                0x0800032c                WWDG_Handler
+                0x0800032c                DMA2_Channel4_Handler
+                0x0800032c                DMA1_Channel1_Handler
+                0x0800032c                OTG_FS_Handler
+                0x0800032c                ETH_WKUP_Handler
+                0x0800032c                I2C1_ER_Handler
+                0x0800032c                EXT9_5_Handler
+                0x0800032c                RTC_Handler
+                0x0800032c                UsageFault_Handler
+                0x0800032c                CAN1_RX0_Handler
+                0x0800032c                TIM1_CC_Handler
+                0x0800032c                I2C2_ER_Handler
+                0x0800032c                CAN1_SCE_Handler
+                0x0800032c                TIM1_BRK_Handler
+                0x0800032c                EXT12_Handler
+                0x0800032c                UART4_Handler
+                0x0800032c                CAN2_RX1_Handler
+                0x0800032c                TIM2_Handler
+                0x0800032c                USART1_Handler
+                0x0800032c                CAN2_SCE_Handler
+                0x0800032c                DMA1_Channel4_Handler
+                0x0800032c                TIM3_Handler
+                0x0800032c                Default_Handler
+                0x0800032c                EXT10_Handler
+                0x0800032c                DMA1_Channel3_Handler
+                0x0800032c                TIM4_Handler
+                0x0800032c                CAN2_TX_Handler
+                0x0800032c                SPI2_Handler
+                0x0800032c                DMA1_Channel2_Handler
+                0x0800032c                MemManage_Handler
+                0x0800032c                CAN2_RX0_Handler
+                0x0800032c                TIM1_UP_Handler
+                0x0800032c                DMA1_Channel5_Handler
+                0x0800032c                USART2_Handler
+                0x0800032c                ETH_Handler
+                0x0800032c                SPI1_Handler
+                0x0800032c                I2C2_EV_Handler
+                0x0800032c                SPI3_Handler
+                0x0800032c                DMA2_Channel3_Handler
+                0x0800032c                RCC_Handler
+                0x0800032c                PVD_Handler
+                0x0800032c                UART5_Handler
+                0x0800032c                DMA2_Channel2_Handler
+                0x0800032c                EXT13_Handler
+                0x0800032c                TIM5_Handler
+                0x0800032c                TIM7_Handler
+                0x0800032c                CAN1_TX_Handler
+                0x0800032c                BusFault_Handler
+                0x0800032c                TIM6_Handler
+                0x0800032c                RTCAlarm_Handler
+                0x0800032c                DebugMonitor_Handler
+                0x0800032c                TIM1_TRG_COM_Handler
+                0x0800032c                OTG_FS_WKUP_Handler
+                0x0800032c                TAMPER_Handler
+ .text          0x08000334      0x1bc obj/GPIO_DRIVER2.o
+                0x08000334                pin_mode
+                0x080003d4                digital_writepin
+                0x0800041c                digital_lock
+                0x080004ae                digital_readpin
+ *(.rodata)
+                0x080004f0                . = ALIGN (0x4)
+                0x080004f0                _etext = .
+                0x080004f0                _ld_data = LOADADDR (.data)
+
+.glue_7         0x080004f0        0x0
+ .glue_7        0x080004f0        0x0 linker stubs
+
+.glue_7t        0x080004f0        0x0
+ .glue_7t       0x080004f0        0x0 linker stubs
+
+.vfp11_veneer   0x080004f0        0x0
+ .vfp11_veneer  0x080004f0        0x0 linker stubs
+
+.v4_bx          0x080004f0        0x0
+ .v4_bx         0x080004f0        0x0 linker stubs
+
+.iplt           0x080004f0        0x0
+ .iplt          0x080004f0        0x0 obj/main.o
+
+.rel.dyn        0x080004f0        0x0
+ .rel.iplt      0x080004f0        0x0 obj/main.o
+
+.data           0x20000000        0x0 load address 0x080004f0
+                0x20000000                _sdata = .
+ *(.data)
+ .data          0x20000000        0x0 obj/main.o
+ .data          0x20000000        0x0 obj/startup.o
+ .data          0x20000000        0x0 obj/GPIO_DRIVER2.o
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _edata = .
+
+.igot.plt       0x20000000        0x0 load address 0x080004f0
+ .igot.plt      0x20000000        0x0 obj/main.o
+
+.bss            0x20000000        0x0 load address 0x080004f0
+                0x20000000                _sbss = .
+ *(.bss)
+ .bss           0x20000000        0x0 obj/main.o
+ .bss           0x20000000        0x0 obj/startup.o
+ .bss           0x20000000        0x0 obj/GPIO_DRIVER2.o
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _ebss = .
+OUTPUT(final.elf elf32-littlearm)
+LOAD linker stubs
+
+.comment        0x00000000       0x4c
+ .comment       0x00000000       0x4c obj/main.o
+                                 0x4d (size before relaxing)
+ .comment       0x0000004c       0x4d obj/startup.o
+ .comment       0x0000004c       0x4d obj/GPIO_DRIVER2.o
+
+.ARM.attributes
+                0x00000000       0x2d
+ .ARM.attributes
+                0x00000000       0x2d obj/main.o
+ .ARM.attributes
+                0x0000002d       0x2d obj/startup.o
+ .ARM.attributes
+                0x0000005a       0x2d obj/GPIO_DRIVER2.o
