@@ -203,7 +203,7 @@ void Reset_Handler(void){
 		*dst = *src; 	//copying
 	}
 	for(dst = &_sbss; dst<&_ebss; dst++){	// Initialize all uninitialized variables (bss section) to 0
-		*dst = 0;
+		*dst = 1;
 	}
 	
 	main();

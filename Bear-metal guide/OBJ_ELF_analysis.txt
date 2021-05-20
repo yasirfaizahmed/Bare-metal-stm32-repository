@@ -17,6 +17,14 @@ to SRAM and read-only data
  .rodata section -->holds initialized data like gloabal const variables and initialized arrays etc.
  .comment section
 
+eg.
+const int a = 7;		// Will be placed in rodata
+int b = 3;			// Will be placed in data (LMA)
+int c = 0;			// Will be placed in bss
+int d;				// Will be placed in bss (but first in COMMON)
+
+
+
 2)Disassembling the .text section using command 
 arm-none-eabi-objdump.exe main.o -d 
 converts the object file contents to assembly opcodes contents 

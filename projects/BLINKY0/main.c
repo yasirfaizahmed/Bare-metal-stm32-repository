@@ -34,10 +34,12 @@ int main(){
 	
 	while(1){
 		
-		GPIOC_ODR |= (1<<13);
-		for(int i=0;i<100000;i++);
-		GPIOC_ODR &= ~(1<<13);
-		for(int i=0;i<100000;i++);
+		//GPIOC_ODR |= (1<<13);
+		//for(int i=0;i<100000;i++);
+		//GPIOC_ODR &= ~(1<<13);
+		//for(int i=0;i<100000;i++);
+		if(arr == 56) GPIOC_ODR |= (1<<13);
+		else GPIOC_ODR &= ~(1<<13);
 
 	}
 	

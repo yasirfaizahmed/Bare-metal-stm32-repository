@@ -17,8 +17,8 @@ bin : obj/final.elf
 	arm-none-eabi-objcopy obj/final.elf obj/final.bin -O binary
 
 
-map : linker.ld main.o startup.o
-	$(CC) main.o startup.o $(FLAGS) -Wl,-Map=obj/final.map -nostdlib -T linker.ld -o final.elf
+map : linker.ld obj/main.o obj/startup.o
+	$(CC) obj/main.o obj/startup.o $(FLAGS) -Wl,-Map=obj/final.map -nostdlib -T linker.ld -o obj/final.elf
 
 
 clean : 
