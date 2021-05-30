@@ -1,6 +1,20 @@
 #ifndef CMSIS_H_INCLUDED
 #define CMSIS_H_INCLUDED
 
+#include <stdint.h>
+
+
+
+#define     __I     volatile const       /*!< Defines 'read only' permissions */
+#define     __O     volatile             /*!< Defines 'write only' permissions */
+#define     __IO    volatile             /*!< Defines 'read / write' permissions */
+
+
+#define     __IM     volatile const      /*! Defines 'read only' structure member permissions */
+#define     __OM     volatile            /*! Defines 'write only' structure member permissions */
+#define     __IOM    volatile            /*! Defines 'read / write' structure member permissions */
+
+
 
 typedef struct
 {
@@ -106,7 +120,7 @@ typedef enum IRQn
 #define __STATIC_INLINE                 static __inline
 
 
-__STATIC_INLINE void __NVIC_EnableIRQ(IRQn_Type IRQn)
+__STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
   {

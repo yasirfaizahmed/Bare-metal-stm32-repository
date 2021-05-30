@@ -18,8 +18,16 @@ void UART_Setup(void){
 	GPIOA->CRH &= ~(GPIO_CRH_CNF9_0);	//clearing the default bit
 	
 	//USART setup
-	USART1->BRR = 0x0341;	//sysclock at 8MHz HSI, BR @ 9600b/s
+	/*
+	for baud rate of 9600b/s 
+	@8MHz 0x0341
+	@16MHz 0x0682
+	@32MHz 0x0D05
+	@48MHz 0x1388
+	*/
+	USART1->BRR = 0x1388;
 	USART1->CR1 |= USART_CR1_TE;
+	USART1->CR1 |= USART_CR1_RE;
 	USART1->CR1 |= USART_CR1_UE;
 	
 }	

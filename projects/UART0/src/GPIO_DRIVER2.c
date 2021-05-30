@@ -5,7 +5,7 @@
 
 /***************************************pin_mode function***********************************************/
 void pin_mode(IOP IOP_value, GPIO_TypeDef* port, int pin, MODE mode_value, CNF cnf_value){
-	
+
 	RCC->APB2ENR |= IOP_value;
 	
 	uint32_t final_value = mode_value | (cnf_value<<2);	//getting the fianl value of the the modes combined

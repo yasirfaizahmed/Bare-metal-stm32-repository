@@ -27,8 +27,6 @@ int main(){
 	NVIC_EnableIRQ(USART1_IRQn);	//usart1 global interrupt enabling
 		
 	
-	
-	
 	while(1){
 		
 		
