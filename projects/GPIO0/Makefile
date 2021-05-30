@@ -2,7 +2,7 @@ CC = arm-none-eabi-gcc
 FLAGS = -mcpu=cortex-m3 -mthumb
 
 
-all : main.o startup.o GPIO_DRIVER2.o UART_DRIVER0.o
+all : main.o startup.o GPIO_DRIVER2.o
 
 main.o : main.c 
 	$(CC) main.c -I inc $(FLAGS) -c -o obj/main.o
@@ -10,18 +10,16 @@ startup.o : src/startupfile.c
 	$(CC) src/startupfile.c $(FLAGS) -c -o obj/startup.o
 GPIO_DRIVER2.o : src/GPIO_DRIVER2.c
 	$(CC) src/GPIO_DRIVER2.c -I inc $(FLAGS) -c -o obj/GPIO_DRIVER2.o
-UART_DRIVER0.o : src/UART_DRIVER0.c
-	$(CC) src/UART_DRIVER0.c -I inc $(FLAGS) -c -o obj/UART_DRIVER0.o
 
 link : linker.ld obj/main.o obj/startup.o 
-	$(CC) obj/main.o obj/startup.o obj/UART_DRIVER0.o obj/GPIO_DRIVER2.o $(FLAGS) -nostdlib -T linker.ld -o obj/final.elf
+	$(CC) obj/main.o obj/startup.o obj/GPIO_DRIVER2.o $(FLAGS) -nostdlib -T linker.ld -o obj/final.elf
 	
 bin : obj/final.elf 
 	arm-none-eabi-objcopy obj/final.elf obj/final.bin -O binary
 
 
 map : linker.ld main.o startup.o
-	$(CC) obj/main.o obj/startup.o obj/GPIO_DRIVER2.o obj/UART_DRIVER0.o $(FLAGS) -Wl,-Map=obj/final.map -nostdlib -T linker.ld -o final.elf
+	$(CC) main.o startup.o GPIO_DRIVER2.o $(FLAGS) -Wl,-Map=obj/final.map -nostdlib -T linker.ld -o final.elf
 
 
 clean : 

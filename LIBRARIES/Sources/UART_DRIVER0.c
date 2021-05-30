@@ -1,22 +1,9 @@
-#ifndef USART_DEBUG0_INCLUDED_H
-#define USART_DEBUG0_INCLUDED_H
-
-
+#include "../inc/UART_DRIVER0.h"
 #include "stm32f10x.h"
 #include <stdint.h>
-#include <string.h>
-#include "stdlib.h"
-#include "stdarg.h"
 
 
-
-//static void printMsg(char *msg, ...);
-void usart1_setup(void);
-void UART_TX(unsigned short uart, char ptr);
-void UART_SEND(unsigned short uart, char str[], uint8_t payload_width);
-
-
-void usart1_setup(){
+void UART_Setup(void){
 	//Enabeling HSI, Not really necessary.
 	RCC->CR |= RCC_CR_HSION;
 	while( !(RCC->CR & RCC_CR_HSIRDY) );
@@ -31,7 +18,14 @@ void usart1_setup(){
 	GPIOA->CRH &= ~(GPIO_CRH_CNF9_0);	//clearing the default bit
 	
 	//USART setup
-	USART1->BRR = 0x1d4c;
+	/*
+	for baud rate of 9600b/s 
+	@8MHz 0x0341
+	@16MHz 0x0682
+	@32MHz 0x0D05
+	@48MHz 0x1388
+	*/
+	USART1->BRR = 0x1388;
 	USART1->CR1 |= USART_CR1_TE;
 	USART1->CR1 |= USART_CR1_UE;
 	
@@ -51,37 +45,18 @@ void usart1_setup(){
 	}
 } */
 
-void UART_TX(unsigned short uart,char ptr)
-{
-	if(uart == 1)
-		{
-			while((USART1->SR & (1<<6)) == 0x00)
-			{};
-			USART1->DR = ptr;
-		}
-	else if(uart == 2)
-		{
-			while((USART2->SR & (1<<6)) == 0x00)
-			{};
-			USART2->DR = ptr;
-		}
-		if(uart == 3)
-		{
-			while((USART3->SR & (1<<6)) == 0x00)
-			{};
-			USART3->DR = ptr;
-		}
+void UART_Tx(char ptr){
+	while((USART1->SR & (1<<6)) == 0x00);
+	USART1->DR = ptr;
+		
 }
 
-void UART_SEND(unsigned short uart, char str[], uint8_t payload_width)
+void UART_Send(char str[], uint8_t payload_width)
 {
 	int i = 0;
 	while(i<payload_width)
 	{
-		UART_TX(uart,str[i]);
+		UART_Tx(str[i]);
 		i++;
 	}
 }
-
-
-#endif

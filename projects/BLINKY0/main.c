@@ -16,17 +16,14 @@
 #define GPIOC_CRH 	*(volatile uint32_t*)	(GPIOC_BASE + 0x04)
 #define GPIOC_ODR		*(volatile uint32_t*)	(GPIOC_BASE + 0x0c)
 	
-uint16_t arr[] __attribute__ ((section (".mysection"))) = {69, 69, 69};
 
-const uint32_t data = 2345;
-const uint32_t lmao = 3456;
+
+
 
 
 int main(){
 	
-	int arr = 56;
-	int er = 69;
-	int yt = 34;
+
 	
 	RCC_APB2ENR |= (1<<4);
 	GPIOC_CRH &= 0xFF0FFFFF;
@@ -34,12 +31,11 @@ int main(){
 	
 	while(1){
 		
-		//GPIOC_ODR |= (1<<13);
-		//for(int i=0;i<100000;i++);
-		//GPIOC_ODR &= ~(1<<13);
-		//for(int i=0;i<100000;i++);
-		if(arr == 56) GPIOC_ODR |= (1<<13);
-		else GPIOC_ODR &= ~(1<<13);
+		GPIOC_ODR |= (1<<13);
+		for(int i=0;i<100000;i++);
+		GPIOC_ODR &= ~(1<<13);
+		for(int i=0;i<100000;i++);
+		
 
 	}
 	
