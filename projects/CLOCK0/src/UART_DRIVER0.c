@@ -20,12 +20,13 @@ void UART_Setup(void){
 	//USART setup
 	/*
 	for baud rate of 9600b/s 
+	@2MHz 0x00D3
 	@8MHz 0x0341
 	@16MHz 0x0682
 	@32MHz 0x0D05
 	@48MHz 0x1388
 	*/
-	USART1->BRR = 0x1388;
+	USART1->BRR = 0x00D3;
 	USART1->CR1 |= USART_CR1_TE;
 	USART1->CR1 |= USART_CR1_RE;
 	USART1->CR1 |= USART_CR1_UE;
