@@ -8,14 +8,8 @@
 
 #define data 0x01
 
-void USART1_Handler(void){
-	if((USART1->SR)&(USART_SR_RXNE)){
-		UART_Tx(data);	//some response
-		USART1->SR &= ~USART_SR_RXNE;	//clearing the flag since we are not reading the DR
-	}		
-	
-	
-}
+
+uint8_t array[10] = {};
 
 int main(){
 	Set_Sysclock_Frequency(HSE_PRE_DIV1, RCC_CFGR_PLLMULL2, RCC_CFGR_HPRE_DIV8, RCC_CFGR_PPRE1_DIV1, RCC_CFGR_PPRE2_DIV1);
@@ -23,6 +17,8 @@ int main(){
 	UART_Setup();
 	
 	Set_MCO(PLL_MCO_SRC);
+	
+	USART_Transfer_Info(array, 10);
 	
 	USART1->CR1 |= USART_CR1_RXNEIE;// interrupt at reception of data at RX
 	NVIC_EnableIRQ(USART1_IRQn);	//usart1 global interrupt enabling

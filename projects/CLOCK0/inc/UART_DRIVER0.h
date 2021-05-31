@@ -8,9 +8,9 @@
 
 //static void printMsg(char *msg, ...);
 void UART_Setup(void);
-void UART_Tx(char ptr);
-void UART_Send(char str[], uint8_t payload_width);
-
+void UART_Tx(char data);
+void UART_Send(uint8_t arr[], uint8_t arr_size);
+void USART_Transfer_Info(uint8_t arr_ptr[], uint8_t arr_size);
 
 
 

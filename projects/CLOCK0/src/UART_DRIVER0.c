@@ -1,8 +1,22 @@
 #include "../inc/UART_DRIVER0.h"
 #include "stm32f10x.h"
+#include "cmsis.h"
 #include <stdint.h>
+#include <stdlib.h>
 
 
+/***** some data pointers for handler to transfer data back to main*/
+uint8_t* _ARRAY_PTR = NULL;     //for data received 
+uint8_t _ARRAY_SIZE = 0x00;     //for data received 
+uint8_t _INDEX = 0x00;          //for data received
+
+/**
+ *  \brief UART1 setup maily for 9600baud
+ *  
+ *  \return nothing
+ *  
+ *  \details 
+ */
 void UART_Setup(void){
 	//Enabeling HSI, Not really necessary.
 	RCC->CR |= RCC_CR_HSION;
@@ -47,18 +61,68 @@ void UART_Setup(void){
 	}
 } */
 
-void UART_Tx(char ptr){
+/**
+ *  \brief UART Tx
+ *  
+ *  \param [in] data data to be tranmitted
+ *  \return nothing
+ *  
+ *  \details 
+ */
+void UART_Tx(char data){
 	while((USART1->SR & (1<<6)) == 0x00);
-	USART1->DR = ptr;
+	USART1->DR = data;
 		
 }
 
-void UART_Send(char str[], uint8_t payload_width)
+/**
+ *  \brief tranmitts the uint8_t or uint8_t array 
+ *  
+ *  \param [in] arr_width size of the array
+ *  \return nothing
+ *  
+ *  \details  max width is 0xFF (256Bytes)
+ */
+void UART_Send(uint8_t arr[], uint8_t arr_size)
 {
-	int i = 0;
-	while(i<payload_width)
+	uint8_t i = 0;
+	while(i<arr_size)
 	{
-		UART_Tx(str[i]);
+		UART_Tx(arr[i]);
 		i++;
 	}
 }
+
+/**
+ *  \brief transfers the array info
+ *  
+ *  \param [in] arr_size array size
+ *  \return nothing
+ *  
+ *  \details More details				
+ */
+void USART_Transfer_Info(uint8_t arr_ptr[], uint8_t arr_size){
+	_ARRAY_PTR = arr_ptr;
+	_ARRAY_SIZE = arr_size;
+}
+
+
+/**
+ *  \brief USAT1 gloabal interrupt handler
+ *  \return nothing
+ *  
+ *  \details 
+ */
+void USART1_Handler(void){
+	if( ((USART1->SR)&(USART_SR_RXNE)) && _ARRAY_SIZE!=0 ){  //if RX buffer is not empty
+		_ARRAY_PTR[_INDEX] = USART1->DR;  //this automatically clears the RXNE bit
+		USART1->SR &= ~USART_SR_RXNE;	//clearing it anyway
+		_INDEX++;
+	}
+	UART_Send(_ARRAY_PTR, _ARRAY_SIZE);
+	
+	
+}
+
+
+
