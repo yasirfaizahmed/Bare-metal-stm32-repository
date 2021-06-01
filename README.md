@@ -1,5 +1,5 @@
 # Bare-metal-stm32-repository
-This repo is collection of all Bear-metal developed code and some references to utilize tools like GCC, Make, OpenOCD, GDB, Linkers etc.
+This repo is collection of all Bear-metal developed code and some references to utilize tools like GNU toolchain for ARM uP, Make, ST-link utility application(for debugging), GDB, Linker concepts etc.
 
 ## Requirements to get started
 1. [GNU Arm embedded toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads)
