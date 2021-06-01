@@ -1,5 +1,6 @@
 #include "../inc/CLOCK_DRIVER0.h"
 #include "../inc/stm32f10x.h"
+#include "../inc/GPIO_DRIVER2.h"
 #include <stdint.h>
 
 
@@ -87,5 +88,21 @@ void Set_Sysclock_Frequency(HSE_PRE HSE_Prescalar, PLL_MULL PLL_Multiplier, AHB_
 	while(!(RCC->CFGR & RCC_CFGR_SWS_PLL));
 		 
 	
+}
+
+
+/**
+ *  \brief sets MCO clock source and turns it on 
+ *  
+ *  \param [in] MCO_source MCO source
+ *  \return returns the MCO source if sucessfully
+ *  
+ *  \details More details
+ */
+uint32_t Set_MCO(MCO_SRC MCO_source){
+	pin_mode(IOPA, GPIOA, 8, op_50MHz, op_afpp);
+	RCC->CFGR |= MCO_source;
+	
+	return MCO_source;
 }
 

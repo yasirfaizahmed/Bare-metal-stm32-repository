@@ -22,7 +22,8 @@ int main(){
 	
 	USART1->CR1 |= USART_CR1_RXNEIE;// interrupt at reception of data at RX
 	NVIC_EnableIRQ(USART1_IRQn);	//usart1 global interrupt enabling
-		
+	
+	
 	
 	while(1){
 		

@@ -11,7 +11,7 @@ uint8_t _ARRAY_SIZE = 0x00;     //for data received
 uint8_t _INDEX = 0x00;          //for data received
 
 /**
- *  \brief UART1 setup maily for 9600baud
+ *  \brief UART1 setup maily for 9600baud, Asynchronous, 8bit, no parity.
  *  
  *  \return nothing
  *  
@@ -106,20 +106,34 @@ void USART_Transfer_Info(uint8_t arr_ptr[], uint8_t arr_size){
 	_ARRAY_SIZE = arr_size;
 }
 
+/**
+ *  \brief to erase the aray info 
+ *  
+ *  \return nothing
+ *  
+ *  \details More details
+ */
+void USART_Erase_Info(){   //erases the array info, call it when no more array data is to be received
+	_INDEX = 0x00;
+	_ARRAY_PTR = NULL;
+	_ARRAY_SIZE = 0x00;
+}
 
 /**
  *  \brief USAT1 gloabal interrupt handler
+ *
  *  \return nothing
  *  
  *  \details 
- */
+ */ 
 void USART1_Handler(void){
 	if( ((USART1->SR)&(USART_SR_RXNE)) && _ARRAY_SIZE!=0 ){  //if RX buffer is not empty
 		_ARRAY_PTR[_INDEX] = USART1->DR;  //this automatically clears the RXNE bit
 		USART1->SR &= ~USART_SR_RXNE;	//clearing it anyway
 		_INDEX++;
+		if(_INDEX == _ARRAY_SIZE) _INDEX = 0x00;	//if overflow? then overwrite 
 	}
-	UART_Send(_ARRAY_PTR, _ARRAY_SIZE);
+	UART_Send(_ARRAY_PTR, _ARRAY_SIZE);  //to verify
 	
 	
 }

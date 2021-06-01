@@ -123,10 +123,14 @@ typedef enum{
 	APB_PRE2_DIV16 = RCC_CFGR_PPRE2_DIV16
 }APB_PRE2;
 
-
+typedef enum{
+	PLL_MCO_SRC = RCC_CFGR_MCO_PLL,
+	HSE_MCO_SRC = RCC_CFGR_MCO_HSE,
+	HSI_MCO_SRC = RCC_CFGR_MCO_HSI
+}MCO_SRC;
 
 /*********** function prototye ***********/
-uint8_t Select_Sysclock_Src(SYSCLK_SRC sysclock_src);
 void Set_Sysclock_Frequency(HSE_PRE HSE_Prescalar, PLL_MULL PLL_Multiplier, AHB_PRE AHB_Prescalar, APB_PRE1 APB1_Prescalar, APB_PRE2 APB2_Prescalar);
+uint32_t Set_MCO(MCO_SRC MCO_source);
 
 #endif
