@@ -53,7 +53,9 @@ mainly the uC memory is divided into two ROM and RAM.
 ROM - is of 512KB in general and consists of Alised memory, Flash memory, system memory
 
 ROM is where the executable code gets stored alog with the already declared constants in the program since they will not change while the program is running its good to have them in ROM instead of RAM memory.
-![Memory map](https://github.com/yasirfaizahmed/Bare-metal-stm32-repository/blob/master/BARE_METAL_GUID/MemoryMap.png)
+
+![Memory map](https://github.com/yasirfaizahmed/Bare-metal-stm32-repository/blob/master/Bear-metal%20guide/MemoryMap.png)
+
 
 
 Aliased memory- This block of memory is mapped with Flash, wirting contents in Aliased memory will reflect the same in Flash memory, we cant write directly into flash but writing into the Aliased memory will give us the same result. both Aliased memory is of 128KB.
@@ -86,7 +88,7 @@ The vector table is a section of our flash memory that mostly holds the addresse
 
 ### Organising the Memory
 
-![mem sections](https://github.com/yasirfaizahmed/Bare-metal-stm32-repository/blob/master/BARE_METAL_GUID/MemorySections.png)
+![mem sections](https://github.com/yasirfaizahmed/Bare-metal-stm32-repository/blob/master/Bear-metal%20guide/MemorySections.png)
 
 Earlier we talked about how the memory in the MCU is mapped out to the different regions of the FLASH and SRAM memory. When our program is compiled the compiler also organises the program into different sections which we would need to fit to these regions. The most popular of these sections are the TEXT, DATA and BSS sections. This is done to separate for example, things like the instructions which is typically in read only memory from variables which should be in read/write memory. The read only memory is typically FLASH memory but does not have to be, it’s also possible to load instructions to the SRAM and execute them from there, but in this post we will use the FLASH memory as our read only memory.
 
@@ -98,13 +100,13 @@ Should we have global or static variables which have also been initialized (give
 
 For the processor to efficiently fetch data the address from where it fetches data should be a multiple of the data type size. For example, if we retrieve a 32bit (word) value then the address must be a multiple of 4. So valid addresses would be 0x0800 0000, 0x0800 0004, etc. When using a 16 bit (half word) value the address must be a multiple of 2 and for 8bit addresses any address can be used. This is known as aligned memory access.
 
-![mem align](https://github.com/yasirfaizahmed/Bare-metal-stm32-repository/blob/master/BARE_METAL_GUID/MemAlign1.png)
+![mem align](https://github.com/yasirfaizahmed/Bare-metal-stm32-repository/blob/master/Bear-metal%20guide/MemAlign1.png)
 
 Looking at the image above, imagine each block represents one byte of memory and the address of the byte is to the left of it. Green arrows would indicate valid addresses for word (32 bit) values. Yellow arrows would be valid for half word (16 bit) values and blue arrows for byte values.
 
 If we try to read data from unaligned memory the processor would need to fetch the data twice and we would get a performance penalty. One solution to this problem is to use alignment instructions when data is assigned an address. Such an instruction would typically round the address up to the closest multiple of the data size. This works but at the cost of creating unused memory locations. In the image below we can see the effect of memory alignment.
 
-![mem align](https://github.com/yasirfaizahmed/Bare-metal-stm32-repository/blob/master/BARE_METAL_GUID/MemAlign2.png)
+![mem align](https://github.com/yasirfaizahmed/Bare-metal-stm32-repository/blob/master/Bear-metal%20guide/MemAlign2.png)
 
 Take as example address 0x0000 0008 which holds a 2 byte value, the next value to be stored is a 4 byte value. But since we need to align the memory we can’t store it at address 0x0000 000A, the first available address would be 0x0000 000C which creates 2 bytes of unused space.
 
