@@ -20,13 +20,15 @@ int main(){
 	
 	USART_Transfer_Info(array, 10);
 	
+	//USART_Receive_DMA(DMA1_Channel1, DMA_PL_MEDIUM, array, 10);
+
 	USART1->CR1 |= USART_CR1_RXNEIE;// interrupt at reception of data at RX
 	NVIC_EnableIRQ(USART1_IRQn);	//usart1 global interrupt enabling
 	
 	
 	
-	while(1){
-		
+	
+	while(1)
 		
 		
 	}

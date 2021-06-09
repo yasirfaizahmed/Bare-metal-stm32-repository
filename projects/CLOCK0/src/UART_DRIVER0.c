@@ -113,7 +113,7 @@ void USART_Transfer_Info(uint8_t arr_ptr[], uint8_t arr_size){
  *  
  *  \details More details
  */
-void USART_Erase_Info(){   //erases the array info, call it when no more array data is to be received
+void USART_Erase_Info(void){   //erases the array info, call it when no more array data is to be received
 	_INDEX = 0x00;
 	_ARRAY_PTR = NULL;
 	_ARRAY_SIZE = 0x00;
@@ -138,5 +138,23 @@ void USART1_Handler(void){
 	
 }
 
+void USART_Receive_DMA(DMA_Channel_TypeDef* DMA_channel, DMA_PL DMA_priority, uint8_t arr[], int arr_size){   //uses DMA1
+	RCC->AHBENR |= RCC_AHBENR_DMA1EN;   //turns on DMA1 on AHB
+	USART1->CR3 |= USART_CR3_DMAR;   //DMA mode enabled for reception
+	
+	DMA_channel->CCR |= DMA_priority;   //setting the DMA priiority
+	DMA_channel->CCR |= DMA_CCR_MINC;   //memory increment mode
+	DMA_channel->CCR |= DMA_CCR_CIRC;   //circular mode 
+	DMA_channel->CCR |= DMA_CCR_TCIE;   //Transfer complete interrupt enable
+
+	
+	DMA_channel->CNDTR = arr_size;   //array size
+	DMA_channel->CPAR = (uint32_t)&(USART1->DR);
+	DMA_channel->CMAR = (uint32_t)arr;
+	
+	DMA_channel->CCR |= DMA_CCR_EN;   //enable the channel
+	
+	
+}
 
 
