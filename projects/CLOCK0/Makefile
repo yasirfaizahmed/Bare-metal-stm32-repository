@@ -29,4 +29,8 @@ map : linker.ld main.o startup.o
 clean : 
 	rm -rf obj/*.o obj/*.elf obj/*.map obj/*.bin
 	
+update :
+	cp ./inc/. -r ../../LIBRARIES/Headers
+	cp ./src/. -r ../../LIBRARIES/Sources
+	
 	
