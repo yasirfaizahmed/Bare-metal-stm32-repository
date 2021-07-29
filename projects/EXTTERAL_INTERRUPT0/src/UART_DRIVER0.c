@@ -85,8 +85,7 @@ void UART_Tx(char data){
  *  
  *  \details  max width is 0xFF (256Bytes)
  */
-void UART_Send(uint8_t arr[], uint8_t arr_size)
-{
+void UART_Send(uint8_t arr[], uint8_t arr_size){
 	uint8_t i = 0;
 	while(i<arr_size)
 	{

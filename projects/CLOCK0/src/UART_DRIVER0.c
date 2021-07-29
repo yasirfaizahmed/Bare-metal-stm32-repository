@@ -34,8 +34,10 @@ void UART_Setup(void){
 	//USART setup
 	/*
 	for baud rate of 9600b/s 
-	@2MHz 0x00D3
-	@8MHz 0x0341
+	sysclk   BRR 
+	-------------
+	@2MHz  0x00D3
+	@8MHz  0x0341
 	@16MHz 0x0682
 	@32MHz 0x0D05
 	@48MHz 0x1388
@@ -131,7 +133,10 @@ void USART1_Handler(void){
 		_ARRAY_PTR[_INDEX] = USART1->DR;  //this automatically clears the RXNE bit
 		USART1->SR &= ~USART_SR_RXNE;	//clearing it anyway
 		_INDEX++;
-		if(_INDEX == _ARRAY_SIZE) _INDEX = 0x00;	//if overflow? then overwrite 
+		if(_INDEX > _ARRAY_SIZE){
+			_INDEX = 0x00;	//if overflow? then clear the array and re-write
+			for(int i=0;i<_ARRAY_SIZE;i++) _ARRAY_PTR[i] = 0x00;
+		}
 	}
 	UART_Send(_ARRAY_PTR, _ARRAY_SIZE);  //to verify
 	

@@ -120,6 +120,8 @@ typedef enum IRQn
 #define __STATIC_INLINE                 static __inline
 
 
+
+/* NVIC Interrupt enable function */
 __STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
 {
   if ((int32_t)(IRQn) >= 0)
