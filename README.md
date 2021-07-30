@@ -2,7 +2,7 @@
 This repo is collection of all Bear-metal developed code and some references to utilize tools like GNU toolchain for ARM uP, Make, ST-link utility application(for debugging), GDB, Linker concepts etc.
 
 ## Contents
-1. LIBRARIES         --> This directory contains the latest peripheral Drivers.
+1. LIBRARIES         --> This directory contains the latest peripheral Drivers along with latest linker.ld and the Makefile of the recently worked project.
 2. PROJECTS          --> This directory contains some sample sketches to test the peripheral Drivers present in /LIBRARIES
 3. bare metal guide  --> some .txt and .png files for README.md 
 
