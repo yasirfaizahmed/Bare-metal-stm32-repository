@@ -120,11 +120,23 @@ state digital_readpin(GPIO_TypeDef *port, int pin){
  */
 void EXTI_Enable(GPIO_TypeDef* port, int pin){
 	RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;    //clock for Alternate functions
-	if(pin <= 3){
+	if((pin <= 3)&&(pin >= 0)){
 		if(port == GPIOA) AFIO->EXTICR[0] |= (0x0000<<(pin*4));
 		if(port == GPIOB) AFIO->EXTICR[0] |= (0x0001<<(pin*4));
 		if(port == GPIOC) AFIO->EXTICR[0] |= (0x0010<<(pin*4));
 		if(port == GPIOD) AFIO->EXTICR[0] |= (0x0011<<(pin*4));
+	}
+	if((pin <= 7)&&(pin >= 4)){
+		if(port == GPIOA) AFIO->EXTICR[1] |= (0x0000<<((pin-4)*4));
+		if(port == GPIOB) AFIO->EXTICR[1] |= (0x0001<<((pin-4)*4));
+		if(port == GPIOC) AFIO->EXTICR[1] |= (0x0010<<((pin-4)*4));
+		if(port == GPIOD) AFIO->EXTICR[1] |= (0x0011<<((pin-4)*4));
+	}
+	if((pin <= 11)&&(pin >= 8)){
+		if(port == GPIOA) AFIO->EXTICR[2] |= (0x0000<<((pin-8)*4));
+		if(port == GPIOB) AFIO->EXTICR[2] |= (0x0001<<((pin-8)*4));
+		if(port == GPIOC) AFIO->EXTICR[2] |= (0x0010<<((pin-8)*4));
+		if(port == GPIOD) AFIO->EXTICR[2] |= (0x0011<<((pin-8)*4));
 	}
 	
 }
