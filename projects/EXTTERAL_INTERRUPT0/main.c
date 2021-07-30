@@ -15,8 +15,9 @@ int main(){
 	pin_mode(IOPC, GPIOC, 13, op_10MHz, op_gppp);
 	digital_writepin(GPIOA, 13, LOW);
 	
-	RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;	//EXTI falls under Alternate functions of GPIO
-	AFIO->EXTICR[0] |= AFIO_EXTICR1_EXTI1_PA;	// PA[1] pin 
+	//RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;	//EXTI falls under Alternate functions of GPIO
+	//AFIO->EXTICR[0] |= AFIO_EXTICR1_EXTI1_PA;	// PA[1] pin 
+	EXTI_Enable(GPIOA, 1);
 	EXTI->IMR |= (1<<1);  
 	EXTI->RTSR |= (1<<1);   
 	
@@ -24,4 +25,12 @@ int main(){
 	
 	
 	
+	
+	
+}
+
+void EXTI1_Handler(void){
+    EXTI->PR |= (1<<1);                           // clear pending interrupt
+	UART_Tx(0x69);
+    
 }
