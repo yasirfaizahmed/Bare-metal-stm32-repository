@@ -16,8 +16,9 @@ int main(){
 	digital_writepin(GPIOA, 13, LOW);
 	
 	EXTI_Enable(GPIOA, 4);
-	EXTI->IMR |= (1<<4);  
-	EXTI->RTSR |= (1<<4);   
+	//EXTI->IMR |= (1<<4);  
+	//EXTI->RTSR |= (1<<4);
+	EXTI_Set_Mode(DOUBLE_EDGE, 4);
 	
 	NVIC_EnableIRQ(EXTI4_IRQn);
 	

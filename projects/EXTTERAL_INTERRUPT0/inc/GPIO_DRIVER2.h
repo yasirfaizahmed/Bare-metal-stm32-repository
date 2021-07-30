@@ -53,14 +53,22 @@ typedef enum{
 }state;
 
 
+/* EXTI MODE definitions */
+typedef enum{
+	RISING,
+	FALLING,
+	DOUBLE_EDGE 
+}EXTI_MODE;
+
 /* function prototyping */
-void pin_mode(IOP IOP_value, GPIO_TypeDef* port, int pin, MODE mode_value, CNF cnf_value);
-void digital_writepin(GPIO_TypeDef *port, int pin, state state_value);
-void digital_lock(GPIO_TypeDef *port, int pin);
-state digital_readpin(GPIO_TypeDef *port, int pin);
+void pin_mode(IOP IOP_value, GPIO_TypeDef* port, uint8_t pin, MODE mode_value, CNF cnf_value);
+void digital_writepin(GPIO_TypeDef *port, uint8_t pin, state state_value);
+void digital_lock(GPIO_TypeDef *port, uint8_t pin);
+state digital_readpin(GPIO_TypeDef *port, uint8_t pin);
 /* EXTI functions */
-void EXTI_Enable(GPIO_TypeDef* port, int pin);
-void EXTI_Clear_PendingReq(int pin);
+void EXTI_Enable(GPIO_TypeDef* port, uint8_t pin);
+void EXTI_Set_Mode(EXTI_MODE mode, uint8_t pin);
+void EXTI_Clear_PendingReq(uint8_t pin);
 
 
 #endif

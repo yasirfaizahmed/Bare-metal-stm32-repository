@@ -16,7 +16,7 @@
  *  
  *  \details 
  */
-void pin_mode(IOP IOP_value, GPIO_TypeDef* port, int pin, MODE mode_value, CNF cnf_value){
+void pin_mode(IOP IOP_value, GPIO_TypeDef* port, uint8_t pin, MODE mode_value, CNF cnf_value){
 
 	RCC->APB2ENR |= IOP_value;
 	
@@ -46,7 +46,7 @@ void pin_mode(IOP IOP_value, GPIO_TypeDef* port, int pin, MODE mode_value, CNF c
  *  
  *  \details 	
  */
-void digital_writepin(GPIO_TypeDef *port, int pin, state state_value){
+void digital_writepin(GPIO_TypeDef *port, uint8_t pin, state state_value){
 	if(state_value == HIGH){
 		port->ODR |= (state_value<<pin);	//writing 1
 	}
@@ -67,7 +67,7 @@ void digital_writepin(GPIO_TypeDef *port, int pin, state state_value){
  *  
  *  \details 	
  */
-void digital_lock(GPIO_TypeDef *port, int pin){
+void digital_lock(GPIO_TypeDef *port, uint8_t pin){
 	if((port->LCKR & GPIO_LCKR_LCKK) == 1){	//if lock bit is set, reset it to remap the sequence 
 		port->LCKR |= GPIO_LCKR_LCKK;
 		port->LCKR &= ~(GPIO_LCKR_LCKK);	//To modify the bit, this is the sequence
@@ -97,7 +97,7 @@ void digital_lock(GPIO_TypeDef *port, int pin){
  *  
  *  \details 	
  */
-state digital_readpin(GPIO_TypeDef *port, int pin){
+state digital_readpin(GPIO_TypeDef *port, uint8_t pin){
 	uint16_t mask = (1<<pin);
 	if((port->IDR & mask) == mask){	//reading 1
 		return HIGH;
@@ -118,7 +118,7 @@ state digital_readpin(GPIO_TypeDef *port, int pin){
  *  
  *  \details 	
  */
-void EXTI_Enable(GPIO_TypeDef* port, int pin){
+void EXTI_Enable(GPIO_TypeDef* port, uint8_t pin){
 	RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;    //clock for Alternate functions
 	if((pin <= 3)&&(pin >= 0)){
 		if(port == GPIOA) AFIO->EXTICR[0] |= (0x0000<<(pin*4));
@@ -142,6 +142,28 @@ void EXTI_Enable(GPIO_TypeDef* port, int pin){
 }
 
 
+
+/**
+ *  \brief Sets the EXTI mode to either to RISING or FALLING EDGE trigerrable
+ *  
+ *  \param [in] mode RISING or FALLING
+ *  \param [in] pin  pin number
+ *  \return nothing
+ *  
+ *  \details 
+ */
+void EXTI_Set_Mode(EXTI_MODE mode, uint8_t pin){
+	EXTI->IMR |= (1<<pin);
+	if(mode == RISING) EXTI->RTSR |= (1<<pin);
+	else if(mode == FALLING) EXTI->FTSR |= (1<<pin);
+	else if(mode == DOUBLE_EDGE){
+		EXTI->RTSR |= (1<<pin);
+		EXTI->FTSR |= (1<<pin);
+	}
+}
+
+
+
 /**
  *  \brief To clear the Pending request occured from EXTI
  *  
@@ -150,8 +172,10 @@ void EXTI_Enable(GPIO_TypeDef* port, int pin){
  *  
  *  \details More details
  */
-void EXTI_Clear_PendingReq(int pin){
+void EXTI_Clear_PendingReq(uint8_t pin){
 	EXTI->PR |= (1<<pin);
 }
+
+
 
 	
