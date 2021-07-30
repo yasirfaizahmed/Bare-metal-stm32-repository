@@ -141,4 +141,17 @@ void EXTI_Enable(GPIO_TypeDef* port, int pin){
 	
 }
 
+
+/**
+ *  \brief To clear the Pending request occured from EXTI
+ *  
+ *  \param [in] pin pin number
+ *  \return nothing
+ *  
+ *  \details More details
+ */
+void EXTI_Clear_PendingReq(int pin){
+	EXTI->PR |= (1<<pin);
+}
+
 	

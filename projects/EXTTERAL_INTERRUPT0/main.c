@@ -28,7 +28,7 @@ int main(){
 }
 
 void EXTI4_Handler(void){
-    EXTI->PR |= (1<<1);                           // clear pending interrupt
+    EXTI_Clear_PendingReq(4); // clear pending interrupt
 	UART_Tx(0x69);
     
 }

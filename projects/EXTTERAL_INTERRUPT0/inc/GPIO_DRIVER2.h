@@ -58,8 +58,9 @@ void pin_mode(IOP IOP_value, GPIO_TypeDef* port, int pin, MODE mode_value, CNF c
 void digital_writepin(GPIO_TypeDef *port, int pin, state state_value);
 void digital_lock(GPIO_TypeDef *port, int pin);
 state digital_readpin(GPIO_TypeDef *port, int pin);
+/* EXTI functions */
 void EXTI_Enable(GPIO_TypeDef* port, int pin);
-
+void EXTI_Clear_PendingReq(int pin);
 
 
 #endif
