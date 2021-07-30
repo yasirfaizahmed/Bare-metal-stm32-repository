@@ -1,6 +1,11 @@
 # Bare-metal-stm32-repository
 This repo is collection of all Bear-metal developed code and some references to utilize tools like GNU toolchain for ARM uP, Make, ST-link utility application(for debugging), GDB, Linker concepts etc.
 
+## Contents
+1. LIBRARIES         --> This directory contains the latest peripheral Drivers.
+2. PROJECTS          --> This directory contains some sample sketches to test the peripheral Drivers present in /LIBRARIES
+3. bare metal guide  --> some .txt and .png files for README.md 
+
 ## Requirements to get started
 1. [GNU Arm embedded toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads)
 2. [Make](http://gnuwin32.sourceforge.net/packages/make.htm) to compile and build files easily.
@@ -10,6 +15,10 @@ This repo is collection of all Bear-metal developed code and some references to 
 
 
 ## Run the commands below at the working directory
+
+Go to the sample sketch directory, for e.g. PRIJECTS/BLINKY0/ 
+
+open up bash/cmd 
 
 To build all the source files, startup files and to get their respective .o files.
 
