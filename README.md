@@ -1,7 +1,7 @@
-# Bare-metal-stm32-repository
+﻿# Bare-metal-stm32-repository
 This repo is collection of all Bear-metal developed code and some references to utilize tools like GNU toolchain for ARM uP, Make, ST-link utility application(for debugging), GDB, Linker concepts etc.
 
-## Contents
+## ---CONTENTS---
 
 **LIBRARIES**         --> This directory contains the latest peripheral Drivers along with latest linker.ld and the Makefile of the recently worked project.
 
@@ -9,7 +9,7 @@ This repo is collection of all Bear-metal developed code and some references to 
 
 **bare metal guide**  --> some .txt and .png files for README.md 
 
-## Requirements to get started
+## ---Requirements to get started---
 1. [GNU Arm embedded toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads)
 2. [Make](http://gnuwin32.sourceforge.net/packages/make.htm) to compile and build files easily.
 3. [Bash Environment, in my case Cygwin](https://cygwin.com/install.html) if you have git installed already in you machine you can launch git bash at your working directory as well.
@@ -17,7 +17,7 @@ This repo is collection of all Bear-metal developed code and some references to 
 5. [stm32 stlink utility](https://www.st.com/en/development-tools/stsw-link004.html)
 
 
-## Run the commands below at the working directory
+## ---Run the commands below at the working directory---
 
 Go to the sample sketch directory, for e.g. PRIJECTS/BLINKY0/ 
 
@@ -48,7 +48,7 @@ To get the .map file of .elf file (just for references)
 Once the .bin file is ready, just open the [stm32 stlink utility](https://www.st.com/en/development-tools/stsw-link004.html), go to Target>Program> select your .bin file and click start, that should download the .bin file to flash.
       
   
-## Some stuff need to know before getting started
+## --Some stuff need to know before getting started---
 
 1. The memory map
 2. Boot sequence
