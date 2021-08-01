@@ -36,6 +36,7 @@ AHBpre can be from 2^0 - 2^9 i.e., from 1 - 512
 
 */
 
+/* System clock source */
 typedef enum{
 	HSI = 0,
 	HSE = 1,
@@ -43,7 +44,7 @@ typedef enum{
 }SYSCLK_SRC;
 
 
-
+/* possible sysclock values */
 typedef enum{
 	//HCLK = 8MHz of HSE * (2 to 9) / (1*1)
 	HCLK_72MHz = 72,
@@ -72,11 +73,13 @@ typedef enum{
 	
 }HCLK;
 
+/* HSE prescalars */
 typedef enum{
 	HSE_PRE_DIV1 = 1,
 	HSE_PRE_DIV2 = 2
 }HSE_PRE;
 
+/* PLL multipliers */
 typedef enum{
 	PLL_MULL2 = RCC_CFGR_PLLMULL2,
 	PLL_MULL3 = RCC_CFGR_PLLMULL3,
@@ -95,6 +98,7 @@ typedef enum{
 	PLL_MULL16 = RCC_CFGR_PLLMULL16
 }PLL_MULL;
 
+/* AHB prescalars */
 typedef enum{
 	AHB_PRE_DIV1 = RCC_CFGR_HPRE_DIV1,
 	AHB_PRE_DIV2 = RCC_CFGR_HPRE_DIV2,
@@ -107,6 +111,7 @@ typedef enum{
 	AHB_PRE_DIV512 = RCC_CFGR_HPRE_DIV512,
 }AHB_PRE;
 
+/* APB1 prescalars */
 typedef enum{
 	APB_PRE1_DIV1 = RCC_CFGR_PPRE1_DIV1,
 	APB_PRE1_DIV2 = RCC_CFGR_PPRE1_DIV2,
@@ -115,6 +120,7 @@ typedef enum{
 	APB_PRE1_DIV16 = RCC_CFGR_PPRE1_DIV16
 }APB_PRE1;
 
+/* APB2 prescalars */
 typedef enum{
 	APB_PRE2_DIV1 = RCC_CFGR_PPRE2_DIV1,
 	APB_PRE2_DIV2 = RCC_CFGR_PPRE2_DIV2,
@@ -123,13 +129,16 @@ typedef enum{
 	APB_PRE2_DIV16 = RCC_CFGR_PPRE2_DIV16
 }APB_PRE2;
 
+/* MCO sources */
 typedef enum{
 	PLL_MCO_SRC = RCC_CFGR_MCO_PLL,
 	HSE_MCO_SRC = RCC_CFGR_MCO_HSE,
 	HSI_MCO_SRC = RCC_CFGR_MCO_HSI
 }MCO_SRC;
 
-/*********** function prototye ***********/
+
+/* function prototye */
+uint8_t Select_Sysclock_Src(SYSCLK_SRC sysclock_src);
 void Set_Sysclock_Frequency(HSE_PRE HSE_Prescalar, PLL_MULL PLL_Multiplier, AHB_PRE AHB_Prescalar, APB_PRE1 APB1_Prescalar, APB_PRE2 APB2_Prescalar);
 uint32_t Set_MCO(MCO_SRC MCO_source);
 

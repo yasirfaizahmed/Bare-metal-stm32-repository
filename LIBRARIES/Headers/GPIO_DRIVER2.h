@@ -5,8 +5,8 @@
 #include <stdint.h>
 #include "stm32f10x.h"
 
-/************************************************RCC->APB2ENR bit definition*******************************************/
-/*************** IOPx values*************************/
+/* RCC->APB2ENR bit definition */
+/* IOPx values */
 typedef enum{
 	IOPA = (uint32_t)0x00000004,
 	IOPB = (uint32_t)0x00000008,
@@ -20,8 +20,8 @@ typedef enum{
 
 
 
-/***********************************************RCC->CRH, CRL bit definition****************************************/
-/*************** MODE[1:0] values*************************/
+/* RCC->CRH, CRL bit definition */
+/* MODE[1:0] values */
 typedef enum{
 	//input values
 	ip 			= 	(uint32_t)0x00000000,
@@ -31,7 +31,7 @@ typedef enum{
 	op_50MHz = 	(uint32_t)0x00000003
 }MODE;
 
-/*************** CNF[1:0] values*************************/
+/* CNF[1:0] values */
 typedef enum{
 	//input values
 	ip_analog   =		(uint32_t)0x00000000,
@@ -46,35 +46,29 @@ typedef enum{
 
 
 
-/*********************************************GPIOx->ODR bit definition***********************************************/
+/* GPIOx->ODR bit definition */
 typedef enum{
 	LOW = 0, 
 	HIGH = 1
 }state;
 
 
+/* EXTI MODE definitions */
+typedef enum{
+	RISING,
+	FALLING,
+	DOUBLE_EDGE 
+}EXTI_MODE;
 
-/***************************************pin_mode function***********************************************/
-void pin_mode(IOP IOP_value, GPIO_TypeDef* port, int pin, MODE mode_value, CNF cnf_value);
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////not working for pin number < 7 in port B//////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/***************************************digital_write function ****************************************/
-void digital_writepin(GPIO_TypeDef *, int, state);
-
-
-
-/**********************************digital_lockpin function ****************************************/
-void digital_lock(GPIO_TypeDef *, int);
-
-
-/**************************************digital_read function ******************************************/
-state digital_readpin(GPIO_TypeDef *, int);
-
-
+/* function prototyping */
+void pin_mode(IOP IOP_value, GPIO_TypeDef* port, uint8_t pin, MODE mode_value, CNF cnf_value);
+void digital_writepin(GPIO_TypeDef *port, uint8_t pin, state state_value);
+void digital_lock(GPIO_TypeDef *port, uint8_t pin);
+state digital_readpin(GPIO_TypeDef *port, uint8_t pin);
+/* EXTI functions */
+void EXTI_Enable(GPIO_TypeDef* port, uint8_t pin);
+void EXTI_Set_Mode(EXTI_MODE mode, uint8_t pin);
+void EXTI_Clear_PendingReq(uint8_t pin);
 
 
 #endif
