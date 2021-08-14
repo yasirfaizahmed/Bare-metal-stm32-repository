@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include "stm32f10x.h"
-
+#include "CLOCK_DRIVER0.h"
 
 #define DMA_CCR_MINC     ((uint16_t)0x0080)   //memory increment mode
 #define DMA_CCR_CIRC     ((uint16_t)0x0020)   //circuilar mode 

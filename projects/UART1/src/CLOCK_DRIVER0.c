@@ -4,6 +4,10 @@
 #include <stdint.h>
 
 
+/* Some Multifile Global Variables */
+int __SysFrequency ;	//This is the final value of the system frequency
+int __AHB_Prescalar;	//This is the final value of the AHB_Prescalar
+
 /**
  *  \brief Brief selects the source for the system clock
  *  
@@ -87,6 +91,38 @@ void Set_Sysclock_Frequency(HSE_PRE HSE_Prescalar, PLL_MULL PLL_Multiplier, AHB_
 	RCC->CR &= ~(RCC_CR_HSION);	//turn off HSI since we dont need it here, HSI is the defalut clk src 
 	while(!(RCC->CFGR & RCC_CFGR_SWS_PLL));
 		 
+	switch(AHB_Prescalar){
+		case (AHB_PRE_DIV1):
+			__AHB_Prescalar = 1;
+			break;
+		case (AHB_PRE_DIV2):
+			__AHB_Prescalar = 2;
+			break;
+		case (AHB_PRE_DIV4):
+			__AHB_Prescalar = 4;
+			break;
+		case (AHB_PRE_DIV8):
+			__AHB_Prescalar = 8;
+			break;
+		case (AHB_PRE_DIV16):
+			__AHB_Prescalar = 16;
+			break;
+		case (AHB_PRE_DIV64):
+			__AHB_Prescalar = 64;
+			break;
+		case (AHB_PRE_DIV128):
+			__AHB_Prescalar = 128;
+			break;
+		case (AHB_PRE_DIV256):
+			__AHB_Prescalar = 256;
+			break;
+		case (AHB_PRE_DIV512):
+			__AHB_Prescalar = 512;
+			break;
+		default:
+			__AHB_Prescalar = 8;
+	}
+	__SysFrequency = ( 8*((PLL_Multiplier/0x40000)+0x2) ) / ( (HSE_Prescalar)*(__AHB_Prescalar) );
 	
 }
 

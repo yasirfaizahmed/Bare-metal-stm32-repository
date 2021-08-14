@@ -42,7 +42,31 @@ void UART_Setup(void){
 	@32MHz 0x0D05
 	@48MHz 0x1388
 	*/
-	USART1->BRR = 0x00D3;
+	extern int __SysFrequency;
+	
+	
+	
+	switch(__SysFrequency){
+		case 2:
+			USART1->BRR = 0x00D3;
+			break;
+		case 8:
+			USART1->BRR = 0x0341;
+			break;
+		case 16:
+			USART1->BRR = 0x0682;
+			break;
+		case 32:
+			USART1->BRR = 0x0D05;
+			break;
+		case 48:
+			USART1->BRR = 0x1388;
+			break;
+		default:
+			USART1->BRR = 0x0341;
+			break;
+	}
+	
 	USART1->CR1 |= USART_CR1_TE;
 	USART1->CR1 |= USART_CR1_RE;
 	USART1->CR1 |= USART_CR1_UE;
