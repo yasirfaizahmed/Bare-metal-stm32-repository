@@ -16,10 +16,10 @@ typedef enum{
 
 /* enum of all popular baudrates */
 typedef enum{	
-	VERYLOW  = 1200,
-	DEFAULT  = 9600,
-	HIGH     = 19200,
-	VERYHIGH = 115200
+	BAUD_VERYLOW  = 1200,
+	BAUD_DEFAULT  = 9600,
+	BAUD_HIGH     = 19200,
+	BAUD_VERYHIGH = 115200
 }BAUD_RATE;
 
 
@@ -44,10 +44,10 @@ typedef struct UART_Init_Type{
 }UART_Init_Type;
 
 /* Function prototyping */
-void UART_Enable_Clock(UART_Init_Type* uart_init_type);
-void UART_Init_GPIO(UART_Init_Type* uart_init_type);
-
-
+void UART_Enable_Clock(UART_Init_Type* self);
+void UART_Init_GPIO(UART_Init_Type* self);
+void UART_Tx(char data);
+void UART_Enable(UART_Init_Type* self);
 
 
 
