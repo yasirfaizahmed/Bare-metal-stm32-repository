@@ -5,6 +5,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+/* Extern variables */
+extern int __SysFrequency;	////This is the final value of the system frequency
+
 
 /* UARTx */
 typedef enum{

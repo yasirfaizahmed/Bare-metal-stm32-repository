@@ -12,7 +12,7 @@ int main(){
 	
 	uart1.uartx = UARTx1;
 	uart1.Synchronous = false;
-	uart1.Auto_BaudRate = false;
+	uart1.Auto_BaudRate = true;
 	uart1.BaudRate = BAUD_DEFAULT;
 	
 	UART_Enable_Clock(&uart1);

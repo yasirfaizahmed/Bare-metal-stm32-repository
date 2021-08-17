@@ -73,9 +73,38 @@ void UART_Tx(char data){
 }
 
 void UART_Enable(UART_Init_Type* self){
-	USART1->BRR = 0x00D3;
+	USART_TypeDef* USART = '\0';	//A USART_TypeDef pointer pointing to NULL
+	if(self->uartx == UARTx1) USART = USART1;	//depending on the instance's selected UARTx our pointer will point to different address(UART1,2,3,4)
+	else if(self->uartx == UARTx2) USART = USART2;
+	else if(self->uartx == UARTx3) USART = USART3;
+	else if(self->uartx == UARTx4) USART = USART4;
+	else USART = USART1;	//A default case 
 	
-	USART1->CR1 |= USART_CR1_TE;
-	USART1->CR1 |= USART_CR1_RE;
-	USART1->CR1 |= USART_CR1_UE;
+	if(self->Auto_BaudRate == true){
+		switch(__SysFrequency){
+		case 2:
+			USART->BRR = 0x00D3;
+			break;
+		case 8:
+			USART->BRR = 0x0341;
+			break;
+		case 16:
+			USART->BRR = 0x0682;
+			break;
+		case 32:
+			USART->BRR = 0x0D05;
+			break;
+		case 48:
+			USART->BRR = 0x1388;
+			break;
+		default:
+			USART->BRR = 0x0341;
+			break;
+		}
+	}
+	USART->CR1 |= USART_CR1_TE;
+	USART->CR1 |= USART_CR1_RE;
+	USART->CR1 |= USART_CR1_UE;
+	
+	
 }

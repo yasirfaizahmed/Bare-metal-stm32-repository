@@ -42,7 +42,9 @@ void UART_Setup(void){
 	@32MHz 0x0D05
 	@48MHz 0x1388
 	*/
-	extern int __SysFrequency;
+	
+	
+	extern int __SysFrequency;	//This variable holds the final SystemFrequency
 	
 	
 	
