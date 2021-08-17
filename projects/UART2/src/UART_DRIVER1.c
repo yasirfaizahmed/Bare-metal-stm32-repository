@@ -77,10 +77,10 @@ void UART_Enable(UART_Init_Type* self){
 	if(self->uartx == UARTx1) USART = USART1;	//depending on the instance's selected UARTx our pointer will point to different address(UART1,2,3,4)
 	else if(self->uartx == UARTx2) USART = USART2;
 	else if(self->uartx == UARTx3) USART = USART3;
-	else if(self->uartx == UARTx4) USART = USART4;
+	else if(self->uartx == UARTx4) USART = UART4;
 	else USART = USART1;	//A default case 
 	
-	if(self->Auto_BaudRate == true){
+	if(self->Auto_BaudRate == true){	//sets Baudrate to standard 9600b/s for any given __SysFrequency
 		switch(__SysFrequency){
 		case 2:
 			USART->BRR = 0x00D3;
@@ -97,14 +97,17 @@ void UART_Enable(UART_Init_Type* self){
 		case 48:
 			USART->BRR = 0x1388;
 			break;
-		default:
+		default:	//A default case
 			USART->BRR = 0x0341;
 			break;
 		}
 	}
-	USART->CR1 |= USART_CR1_TE;
-	USART->CR1 |= USART_CR1_RE;
-	USART->CR1 |= USART_CR1_UE;
+	else USART->BRR = self->BaudRate;	//BaudRate entered manually
+	
+	
+	USART->CR1 |= USART_CR1_TE;	//Enabeling TX
+	USART->CR1 |= USART_CR1_RE;	//Enabeling RX
+	USART->CR1 |= USART_CR1_UE;	//Finally Enabeling UART hardware
 	
 	
 }
