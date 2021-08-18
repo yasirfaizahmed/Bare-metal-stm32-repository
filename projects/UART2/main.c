@@ -19,9 +19,13 @@ int main(){
 	UART_Init_GPIO(&uart1);
 	UART_Enable(&uart1);
 	
+	uint8_t var;
+	uint8_t* ptr = &var;
 	while(1){
 		for(int i=0;i<100000;i++);
-		UART_Tx(0x69);
+		UART_Tx(&uart1, 0x69);
+		UART_Rx(&uart1, ptr);
+		if(*ptr == 0x69) UART_Tx(&uart1, 0xFF);
 	}
 	
 }

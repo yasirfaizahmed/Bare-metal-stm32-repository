@@ -42,7 +42,9 @@ typedef struct UART_Init_Type{
 /* Function prototyping */
 void UART_Enable_Clock(UART_Init_Type* self);
 void UART_Init_GPIO(UART_Init_Type* self);
-void UART_Tx(char data);
+void UART_Tx(UART_Init_Type* self, uint8_t data);
+void UART_Send(UART_Init_Type* self, uint8_t arr[], uint8_t arr_size);
+void UART_Rx(UART_Init_Type* self, uint8_t* ptr);
 void UART_Enable(UART_Init_Type* self);
 
 

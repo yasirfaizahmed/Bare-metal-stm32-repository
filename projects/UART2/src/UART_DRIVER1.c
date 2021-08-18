@@ -1,6 +1,7 @@
 #include "../inc/UART_DRIVER1.h"
 #include "stm32f10x.h"
 #include "../inc/GPIO_DRIVER2.h"
+#include <stdint.h>
 
 /**
  *  \brief Enables the Clock for UARTx from RCC 
@@ -66,10 +67,42 @@ void UART_Init_GPIO(UART_Init_Type* self){
  *  
  *  \details 
  */
-void UART_Tx(char data){
-	while((USART1->SR & (1<<6)) == 0x00);
-	USART1->DR = data;
+void UART_Tx(UART_Init_Type* self, uint8_t data){
+	while((self->UARTx->SR & (USART_SR_TC)) == 0x00);	//checking TransferComplete bit
+	self->UARTx->DR = data;
 		
+}
+
+/**
+ *  \brief Transmitts an array of uint8_t type of length arr_size
+ *  
+ *  \param [in] arr_size length
+ *  \return nothing
+ *  
+ *  \details 
+ */
+void UART_Send(UART_Init_Type* self, uint8_t arr[], uint8_t arr_size){
+	uint8_t i = 0;
+	while(i<arr_size)
+	{
+		UART_Tx(self, arr[i]);
+		i++;
+	}
+} 
+
+/**
+ *  \brief UART_Rx
+ *  
+ *  \param [in] ptr variable pointer 
+ *  \return nothing
+ *  
+ *  \details 
+ */
+void UART_Rx(UART_Init_Type* self, uint8_t* ptr){
+	if((self->UARTx->SR) & (USART_SR_RXNE)){	//RX buffer not empty
+		*ptr = self->UARTx->DR;	//reading the Data regester
+		//self->UARTx->SR &= ~USART_SR_RXNE;	//clearing it anyway
+	}
 }
 
 /**
