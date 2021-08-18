@@ -9,13 +9,6 @@
 extern int __SysFrequency;	////This is the final value of the system frequency
 
 
-/* UARTx */
-typedef enum{
-	UARTx1 = 1,	//Synchronous
-	UARTx2 = 2,	//Synchronous
-	UARTx3 = 3,	//Synchronous
-	UARTx4 = 4	//Asynchronous
-}UARTx;
 
 /* enum of all popular baudrates */
 typedef enum{	
@@ -35,7 +28,7 @@ typedef enum{
 /* UART init typedef */
 typedef struct UART_Init_Type{
 	/** struct data memebers **/
-	UARTx uartx;	//UART1, 2, 3, 4
+	USART_TypeDef* UARTx;	//UART1, 2, 3, 4
 	bool Synchronous;	//True if Synchronous else False
 	bool Auto_BaudRate;	//True for Auto_BaudRate, false for manual
 	BAUD_RATE BaudRate;	//Baudrate of the UART

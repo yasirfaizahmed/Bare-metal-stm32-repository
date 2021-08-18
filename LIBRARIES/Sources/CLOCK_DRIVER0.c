@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 
-/* Some Multifile Global Variables */
+/* Some Multifile Global Extern Variables */
 int __SysFrequency ;	//This is the final value of the system frequency
 int __AHB_Prescalar;	//This is the final value of the AHB_Prescalar
 

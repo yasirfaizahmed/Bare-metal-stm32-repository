@@ -10,7 +10,7 @@ int main(){
 	
 	UART_Init_Type uart1;	//our UART instance
 	
-	uart1.uartx = UARTx1;
+	uart1.UARTx = USART1;
 	uart1.Synchronous = false;
 	uart1.Auto_BaudRate = true;
 	uart1.BaudRate = BAUD_DEFAULT;
