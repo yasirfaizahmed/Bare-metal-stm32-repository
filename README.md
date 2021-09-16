@@ -5,7 +5,7 @@ This repo is collection of all Bear-metal developed code and some references to 
 
 **LIBRARIESv0.x**         --> This directory contains the latest versions of peripheral Drivers along with latest linker.ld and the Makefile of the recently worked project.
 
-**PROJECTS**          --> This directory contains some sample sketches to test the peripheral Drivers present in /LIBRARIESv0.x
+**PROJECTS**          --> This directory contains some sample sketches to test the peripheral Drivers present in `/LIBRARIESv0.x`
 
 **bare metal guide**  --> some .txt and .png files for README.md 
 
