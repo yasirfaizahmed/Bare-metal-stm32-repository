@@ -32,7 +32,7 @@ typedef struct UART_Init_Type{
 	bool Synchronous;	//True if Synchronous else False
 	bool Auto_BaudRate;	//True for Auto_BaudRate, false for manual
 	BAUD_RATE BaudRate;	//Baudrate of the UART
-	 
+	bool Noice_Error;	//True to enable Noice_Error flag 
 	
 	
 	

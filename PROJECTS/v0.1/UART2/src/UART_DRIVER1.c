@@ -99,9 +99,10 @@ void UART_Send(UART_Init_Type* self, uint8_t arr[], uint8_t arr_size){
  *  \details 
  */
 void UART_Rx(UART_Init_Type* self, uint8_t* ptr){
+	uint8_t trash_buffer = 0x00;
 	if((self->UARTx->SR) & (USART_SR_RXNE)){	//RX buffer not empty
-		*ptr = self->UARTx->DR;	//reading the Data regester
-		//self->UARTx->SR &= ~USART_SR_RXNE;	//clearing it anyway
+		if(!(self->UARTx->SR & USART_SR_NE)) *ptr = self->UARTx->DR;	//reading the Data regester
+		else trash_buffer = self->UARTx->DR;	//reading the RX data buffer, this clears the NE bit in SR
 	}
 }
 
@@ -139,9 +140,9 @@ void UART_Enable(UART_Init_Type* self){
 	else self->UARTx->BRR = self->BaudRate;	//BaudRate entered manually
 	
 	if(self->Synchronous == true){
-		if(self->UARTx == USART1 || self->UARTx == USART2 || self->UARTx == USART3) self->UARTx->CR2 |= USART_CR2_CLKEN;	//Enable clock
+		if(self->UARTx == USART1 || self->UARTx == USART2 || self->UARTx == USART3) 
+			self->UARTx->CR2 |= USART_CR2_CLKEN;	//Enable clock
 	}
-	
 	
 	self->UARTx->CR1 |= USART_CR1_TE;	//Enabeling TX
 	self->UARTx->CR1 |= USART_CR1_RE;	//Enabeling RX

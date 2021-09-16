@@ -72,7 +72,9 @@ eg. main.o:main.c
 
 --save as Makefile
 
-
-
+-->cat -e -t -v  Run this command in terminal (where Makefile is present) to check tabs or 4spaces
+makefile does not accept 4spaces for tabs,
+tabs are indicated as ^I and line endings with $
+ 
 
  

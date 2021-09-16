@@ -1,3 +1,4 @@
+----------------- ARM-GCC command structure ------------
 arm-none-eabi-gcc is compiler, linker, assembler
 arm-none-eabi-as  is a assembler
 arm-none-eabi-ld  is a linker
@@ -7,10 +8,9 @@ arm-none-eabi-readelf    are Elf file analyzer
 arm-none-eabi-nm  
 
 arm-none-eabi-objcopy  is format converter
- 
+HERE COMPILER IS arm-none-eabi-gcc 
 
-
-	HERE COMPILER IS arm-none-eabi-gcc 
+-------------- Compilation flow --------------------
 
 1)
 		     ___________
@@ -23,7 +23,7 @@ arm-none-eabi-objcopy  is format converter
  
 2)	 	     ___________
 		    |		|
-	main.i----->|  Compiler |------>main.s
+	main.i----->|  Compiler |------>main.s, .asm, .lst
 		    |___________|
 		   Code generation stage
 (Higher level language code statements will be converted 
@@ -62,9 +62,56 @@ arm-none-eabi-objcopy  is format converter
 		    |___________|        
 
 
+------------- Compilation Flags-----------
+1. Controlling compilation output 
+2. Debugging programs
+3. Optimization falg
+4. Linker options
+5. Target specific options
+
+some usefull options/flags
+--controlling compilation options--
+-C Compile or assemble but do not link
+-S stop after compiling, do not assemble
+-E stop after preprocessing stage do not compile
+-o output file 
+--debugging options--
+-g enable support for debugging
+-ggdb produce debugging report used by GDB
+--optimization options--			     executiontime    codesize   memoryusage  compiletime
+-O0 optimization for compilaion time(by default set)    +                +             -           -
+-O1 optimization for code size, execution time		-                -             +           +  
+-O2 optimization more for code size, execution time     --                             +           ++
+-O3 optimization more on execution time or speed        ---                            +           +++
+-Os optimization for code size                                           --                        ++
+-Ofast O3 with fast none accurate math calculation      ---                            +           +++
 
 
+------------- Environment variables-------
+variable 	 purpose	 	usage with GCC option		usage by setting PATH variable
+C_INCLUDE_PATH   C header file			-I				C_INCLUDE_PATH=/opt/mylibm-1.8.3/include export C_INCLUDE_PATH
+LIBRARY_PATH	 library path			-L				LIBRARY_PATH=/opt/mylibm-1.8.3/lib export LIBRARY_PATH
+LD_LIBRARY_PATH  load path							LD_LIBRARY_PATH=/opt/mylibm-1.8.3/lib export LD_LIBRARY_PATH
 
+-------------SOME NOTES----------------
 
+-> use -Wall option to turn on all the compiler warnings 
+
+-> Include PATH
+by default gcc searches the following directories for header files:
+/usr/local/include/
+for eg. C:\msys64\mingw64\x86_64-w64-mingw32\include
+
+  Link PATH
+and gcc searches the following directories for libarary files:
+/urs/local/lib/
+for eg. C:\msys64\mingw64\lib
+
+->By default gcc compiles programs against shared libraries(default libs), whenever a static library 'libmylibm.a' would used 
+for linking with option -INAME the compiler first checks for an alternative shared library with the same name and a '.so' extension.
+static linking can be forced with -static option to gcc to avoid the use of shared libraries
+
+-> one of the linker's(script) functions is to relocate sections into the target system's memory map;this functions is called PLACEMENT.
+because most systems contain several types of memories, using sections can help use targer memory more effeciently.
 
 
